@@ -23,8 +23,8 @@ const vuetify = createVuetify({
         colors: {
           primary: '#FF0000', 
           secondary: '#FFFFFF', 
-          background: '#212121', 
-          surface: '#303030', 
+          background: '#0E0E0E', /* Changed background color */
+          surface: '#0E0E0E', /* Changed surface color */
           accent: '#FF0000', 
           'on-background': '#FFFFFF', 
           'on-surface': '#FFFFFF', 

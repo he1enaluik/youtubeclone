@@ -1,5 +1,5 @@
-  <template>
-    <v-tabs :model-value="activeTab" @update:model-value="updateActiveTab" class="tabs-container">
+<template>
+    <v-tabs :model-value="activeTab">
       <v-tab value="all">Kõik</v-tab>
       <v-tab value="gaming">Mängud</v-tab>
       <v-tab value="podcasts">Podcastid</v-tab>
@@ -11,43 +11,23 @@
     </v-tabs>
   </template>
 
-  <script>
-  export default {
-    props: {
-      activeTab: {
-        type: String,
-        default: 'all'
-      }
-    },
-    emits: ['update:activeTab'],
-    methods: {
-      updateActiveTab(value) {
-        this.$emit('update:activeTab', value);
-      }
-    }
-  }
-  </script>
-
   <style scoped>
 
   .v-tabs {
-    display: flex; 
-    flex-wrap: nowrap; 
-    justify-content: space-between; 
-    width: 100%; 
-    justify-content: center; 
-    align-items: center; 
+    width: 100%;
+    align-items: center;
+    border: none !important;
+    background-color: transparent !important;
   }
 
   .v-tab {
     color: #D1D1D1 !important;
     text-transform: none !important;
     font-size: 14px !important;
-    padding: 8px 16px !important;
-    flex: 1 1 auto; 
-    text-align: center;
-    margin: 12px;
-    border: 1px solid white;
+    padding: 4px 8px !important;
+    margin: 10px !important;
+    border: none !important;
     border-radius: 12px !important;
+    background-color: #272727;
   }
   </style>

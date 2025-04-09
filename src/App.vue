@@ -5,10 +5,10 @@
         <v-icon color="secondary">mdi-menu</v-icon>
       </v-app-bar-nav-icon>
 
-      <v-toolbar-title class="d-flex align-center">
-        <svg xmlns="http://www.w3.org/2000/svg" width="40" height="28" viewBox="0 0 40 28" fill="none" class="youtube-logo">
+      <v-toolbar-title class="d-flex align-items-center">
+        <svg xmlns="http://www.w3.org/2000/svg" width="30" height="21" viewBox="0 0 40 28" fill="none" class="youtube-logo">
           <rect x="0" y="0" width="40" height="28" rx="6" fill="#FF0000"/>
-          <polygon points="16 6 28 14 16 22 16 6" fill="#FFFFFF"/>
+          <polygon points="19 7 29 14 19 21" fill="#FFFFFF"/>
         </svg>
         <span class="youtube-text">
           YouTube
@@ -197,42 +197,43 @@ export default {
   },
   methods: {
     async fetchChannelLogos() {
-      const apiKey = 'YOUR_YOUTUBE_API_KEY'
-      const channelUsernames = [
-        'LinusTechTips',
-        'MFPallytime',
-        'RayWilliamJohnson',
-        'StevenHe',
-        'JerryRigEverything',
-        'AdamConover',
-        'Thought2'
-      ]
+      const apiKey = 'AIzaSyDbSRbQUQe51hz1b-ZpBnVKck4bjzOOFpQ';
+
 
       try {
-        for (const username of channelUsernames) {
-          const response = await axios.get(
-            `https://www.googleapis.com/youtube/v3/channels?part=snippet&forUsername=${username}&key=${apiKey}`
-          )
-          const channel = response.data.items[0]
-          if (channel) {
-            this.channels.push({
-              name: channel.snippet.title,
-              logo: channel.snippet.thumbnails.default.url,
-              to: `/channel/${username.toLowerCase()}`
-            })
-          }
+        const response = await axios.get(
+          `https://www.googleapis.com/youtube/v3/channels?part=snippet&id=${channelIds.join(',')}&key=${apiKey}`
+        );
+
+        if (response.data && response.data.items) {
+          this.channels = response.data.items.map((channel, index) => ({
+            name: channel.snippet.title,
+            logo: new URL(`/assets/image${(index % 6) + 1}.png`, import.meta.url).href,
+            to: `/channel/${channel.snippet.title.toLowerCase().replace(/ /g, '')}`
+          }));
+        } else {
+          console.error('Error: response.data.items is undefined', response);
+          this.channels = [
+            { name: 'Linus Tech Tips', logo: new URL('/assets/image1.png', import.meta.url).href, to: '/channel/linustechtips' },
+            { name: 'MFPallytime', logo: new URL('/assets/image2.png', import.meta.url).href, to: '/channel/mfpallytime' },
+            { name: 'Ray William Johnson', logo: new URL('/assets/image3.png', import.meta.url).href, to: '/channel/raywilliamjohnson' },
+            { name: 'Steven He', logo: new URL('/assets/image4.png', import.meta.url).href, to: '/channel/stevenhe' },
+            { name: 'JerryRigEverything', logo: new URL('/assets/image5.png', import.meta.url).href, to: '/channel/jerryrigeverything' },
+            { name: 'Adam Conover', logo: new URL('/assets/image6.png', import.meta.url).href, to: '/channel/adamconover' },
+            { name: 'Thought2', logo: new URL('/assets/image1.png', import.meta.url).href, to: '/channel/thought2' }
+          ];
         }
       } catch (error) {
-        console.error('Error fetching channel logos:', error)
+        console.error('Error fetching channel logos:', error);
         this.channels = [
-          { name: 'Linus Tech Tips', logo: 'https://via.placeholder.com/40', to: '/channel/linustechtips' },
-          { name: 'MFPallytime', logo: 'https://via.placeholder.com/40', to: '/channel/mfpallytime' },
-          { name: 'Ray William Johnson', logo: 'https://via.placeholder.com/40', to: '/channel/raywilliamjohnson' },
-          { name: 'Steven He', logo: 'https://via.placeholder.com/40', to: '/channel/stevenhe' },
-          { name: 'JerryRigEverything', logo: 'https://via.placeholder.com/40', to: '/channel/jerryrigeverything' },
-          { name: 'Adam Conover', logo: 'https://via.placeholder.com/40', to: '/channel/adamconover' },
-          { name: 'Thought2', logo: 'https://via.placeholder.com/40', to: '/channel/thought2' }
-        ]
+          { name: 'Linus Tech Tips', logo: new URL('/assets/image1.png', import.meta.url).href, to: '/channel/linustechtips' },
+          { name: 'MFPallytime', logo: new URL('/assets/image2.png', import.meta.url).href, to: '/channel/mfpallytime' },
+          { name: 'Ray William Johnson', logo: new URL('/assets/image3.png', import.meta.url).href, to: '/channel/raywilliamjohnson' },
+          { name: 'Steven He', logo: new URL('/assets/image4.png', import.meta.url).href, to: '/channel/stevenhe' },
+          { name: 'JerryRigEverything', logo: new URL('/assets/image5.png', import.meta.url).href, to: '/channel/jerryrigeverything' },
+          { name: 'Adam Conover', logo: new URL('/assets/image6.png', import.meta.url).href, to: '/channel/adamconover' },
+          { name: 'Thought2', logo: new URL('/assets/image1.png', import.meta.url).href, to: '/channel/thought2' }
+        ];
       }
     }
   }
@@ -240,6 +241,13 @@ export default {
 </script>
 
 <style scoped>
+@font-face {
+  font-family: 'Trade Gothic LT Std Bold Condensed No. 20';
+  src: url('/assets/trade-gothic-lt-std-webfont/trade-gothic-lt-std-bold-condensed-no-20-5872def1d27d8.woff') format('woff');
+  font-weight: bold;
+  font-style: normal;
+}
+
 .v-main {
   height: calc(100vh - 64px);
   display: flex;
@@ -258,29 +266,39 @@ export default {
 
 /* Microphone Icon Button */
 .microphone-icon-btn {
-  height: 40px;
-  width: 40px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-left: 8px;
+  margin-left: 20px;
   padding: 0;
-  background-color: transparent;
+  background-color: #383838; /* Always have the background color */
+  border-radius: 80%; /* Always have the border radius */
   cursor: pointer;
-}
-
-.microphone-icon-btn:hover {
-  background-color: #383838;
-  border-radius: 50%;
-}
-
-.microphone-icon-btn .v-icon {
-  font-size: 24px;
-  color: #ffffff;
 }
 
 /* Tabs Wrapper */
 .tabs-wrapper {
-  margin-top: 16px; /* Add spacing between the search bar and tabs */
+  margin-top: 18px; /* Add spacing between the search bar and tabs */
+}
+
+.youtube-logo {
+  margin-right: 1px; /* Add spacing between the logo and text */
+  width: 28px; /* Adjust width as needed */
+  height: 17px; /* Adjust height as needed */
+  /* display: flex; */
+  /* align-items: center; */
+}
+
+.youtube-text {
+  font-family: 'Trade Gothic LT Std Bold Condensed No. 20', sans-serif;
+  font-size: 20px; /* Adjust font size as needed */
+  font-weight: 500; /* Adjust font weight as needed */
+  color: #FFFFFF; /* Set text color */
+  line-height: 21px; /* Align text vertically with the logo */
+  vertical-align: middle;
+}
+
+.country-code {
+  font-family: 'Trade Gothic LT Std Bold Condensed No. 20', sans-serif;
+  font-size: 8px; /* Adjust font size as needed */
+  vertical-align: super; /* Position the country code as a superscript */
+  margin-left: 2px; /* Add spacing between the text and country code */
 }
 </style>

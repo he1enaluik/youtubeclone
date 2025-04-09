@@ -1,7 +1,7 @@
 <template>
   <v-row class="video-row">
     <v-col v-for="video in videos" :key="video.id" class="video-col">
-      <v-card class="video-card" color="surface">
+      <v-card class="video-card">
         <div class="thumbnail-container">
           <img
             :src="video.thumbnail || '/vue.svg'"
@@ -49,19 +49,11 @@ export default {
   box-sizing: border-box;
 }
 
-.video-card {
-  display: flex;
-  flex-direction: column;
-  height: 100%; 
-  box-sizing: border-box; 
-}
-
 .thumbnail-container {
   position: relative;
   width: 100%;
   padding-top: 56.25%; 
-  background-color: #333;
-  border-radius: 4px;
+  border-radius: 8px; /* Added border-radius */
   overflow: hidden;
   flex-shrink: 0; 
 }
@@ -73,7 +65,7 @@ export default {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  border-radius: 4px;
+  border-radius: 8px; /* Added border-radius */
 }
 
 .video-title {
@@ -99,25 +91,4 @@ export default {
   color: #D1D1D1 !important;
 }
 
-/* Responsive adjustments */
-@media (max-width: 1200px) {
-  .video-col {
-    flex: 0 0 calc(25% - 12px); 
-    max-width: calc(25% - 12px);
-  }
-}
-
-@media (max-width: 900px) {
-  .video-col {
-    flex: 0 0 calc(33.33% - 12px); 
-    max-width: calc(33.33% - 12px);
-  }
-}
-
-@media (max-width: 600px) {
-  .video-col {
-    flex: 0 0 calc(50% - 12px); 
-    max-width: calc(50% - 12px);
-  }
-}
 </style>
