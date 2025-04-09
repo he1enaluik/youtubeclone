@@ -197,9 +197,6 @@ export default {
   },
   methods: {
     async fetchChannelLogos() {
-      const apiKey = 'AIzaSyDbSRbQUQe51hz1b-ZpBnVKck4bjzOOFpQ';
-
-
       try {
         const response = await axios.get(
           `https://www.googleapis.com/youtube/v3/channels?part=snippet&id=${channelIds.join(',')}&key=${apiKey}`
