@@ -29,5 +29,10 @@
     border: none !important;
     border-radius: 12px !important;
     background-color: #272727;
+
+  }
+  .v-tab:active {
+    border: none !important;
+    
   }
   </style>

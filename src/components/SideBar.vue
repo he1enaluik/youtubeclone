@@ -5,7 +5,8 @@
     app
     color="surface"
     width="217"
-    style="height: calc(100vh - 64px); overflow-y: auto;"
+    height="10"
+    style="overflow-y: hidden;"
   >
     <v-list>
       <v-list-item prepend-icon="mdi-home" title="Avaleht" to="/"></v-list-item>
@@ -72,10 +73,17 @@ export default {
 .v-list {
   padding-top: 1px; 
 }
+.v-list--item--active {
+  border: none !important;
+}
 
 .v-list-item {
   font-size: 17px !important; 
   padding: 4px 8px !important; 
+}
+
+.v-navigation-drawer__content {
+  overflow-y: hidden !important; 
 }
 
 </style>
